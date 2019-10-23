@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Paper } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 
 import { setFilter } from '../actions/filters';
 
@@ -41,27 +41,33 @@ class ShopFilter extends Component {
         console.log(categoryFilters);
         let showFilters;
         if (!categoryFilters) {
-            showFilters = <h1>NO FILTERS</h1>;
+            showFilters = <Grid><h1>NO FILTERS</h1></Grid>;
         } else {
             showFilters = categoryFilters.filtersToShow.map(element => {
                 // element = spec(brand, ram, camera, etc...)
-                return (<Paper key={element}>
-                    <p style={{ textTransform: 'capitalize', fontSize: '20px' }}><b>{element}: </b></p>
-                    {this.uniq(items, element).map(
-                        item => (
-                            <div
-                                key={item}
-                                style={{ cursor: 'pointer', fontWeight: (this.boldText(element, item)) }}
-                                onClick={() => this.setFilter(item, element)}
-                            >{item}</div>)
-                    )}
-                </Paper>)
+                return (
+                    <Grid item xs={3} sm={4} lg={12} spacing={1} key={element}>
+                        <Paper>
+                            <p style={{ textTransform: 'capitalize', fontSize: '20px' }}><b>{element}: </b></p>
+
+                            {this.uniq(items, element).map(
+                                item => (
+                                    <div
+                                        key={item}
+                                        style={{ cursor: 'pointer', fontWeight: (this.boldText(element, item)) }}
+                                        onClick={() => this.setFilter(item, element)}
+                                    >{item}</div>)
+                            )}
+                        </Paper>
+                    </Grid>)
             });
         }
         return (
             <div style={{ padding: '1px' }}>
 
-                {showFilters}
+                <Grid container spacing={2}>
+                    {showFilters}
+                </Grid>
 
             </div>
         )
